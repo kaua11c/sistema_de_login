@@ -13,17 +13,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //crio um array com o :usuario digitado 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    //verifico se esse usuario está no banco
-    if(!$user) {
-        echo 'usuario nao existe';
+    
+    if ($user && password_verify($senha, $user['senha'])) {
+        $_SESSION['id'] = $user['id'];
+        $_SESSION['usuario'] = $user['usuario'];
+
+        header("Location: bem_vindo.php");
+        exit;
     } else {
-        if($user['senha'] != $senha) {
-            echo 'senha incorreta';
-        } else {
-            header("Location: bem_vindo.php");
-            exit;
-        }
-    } 
+        echo "Usuário ou senha inválidos";
+    }
 }
 
 

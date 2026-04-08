@@ -1,5 +1,7 @@
 <?php 
-require_once 'template/connection.php';
+require_once 'helpers/connection.php';
+
+
 ?>
 
-<h1>usuario logado <? echo $usuario ?></h1>
+<h1>usuario logado</h1>
