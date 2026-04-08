@@ -2,29 +2,29 @@
 
 require_once 'helpers/connection.php';
 
-$usuario = $_POST['usuario'];
-$senha = $_POST['senha'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $usuario = $_POST['usuario'] ?? null;
+    $senha = $_POST['senha'] ?? null;
  
-$sql = "SELECT * FROM sistema_de_login WHERE usuario = :usuario";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':usuario', $usuario);
-$stmt->execute();
-//crio um array com o :usuario digitado 
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $sql = "SELECT * FROM sistema_de_login WHERE usuario = :usuario";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':usuario', $usuario);
+    $stmt->execute();
+    //crio um array com o :usuario digitado 
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-//verifico se esse usuario está no banco
-if(!$user) {
-    echo 'usuario nao existe';
-} else {
-    if($user['senha'] != $senha) {
-         echo 'senha incorreta';
+    //verifico se esse usuario está no banco
+    if(!$user) {
+        echo 'usuario nao existe';
     } else {
-         echo 'usuário logado';
-         header("Location: bem_vindo.php");
-         exit;
-    }
-} 
-
+        if($user['senha'] != $senha) {
+            echo 'senha incorreta';
+        } else {
+            header("Location: bem_vindo.php");
+            exit;
+        }
+    } 
+}
 
 
 ?>
